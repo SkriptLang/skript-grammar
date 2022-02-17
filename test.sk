@@ -1,0 +1,343 @@
+
+#This command has a cooldown of 1 minute,
+#meaning a player can only use it each minute.
+#If a player tries to use it more than once in a minute,
+#the cooldown message is shown
+
+command /cake:
+	description: Give the command sender some cake!
+	cooldown: 1 minute
+	cooldown message: You need to wait &l%remaining time% &rto use this command again!
+	cooldown bypass: cake.nocooldown
+
+	#See https://skriptlang.github.io/Skript/expressions.html#ExprCmdCooldownInfo for more info
+	#on the expressions you can use in a cooldown message.
+
+	trigger:
+		if the player's inventory doesn't have space for cake:
+			send "&cYou don't have space for cake in your inventory! :("
+			cancel command cooldown
+	  		#This is used so the player doesn't have to wait 1 minute before
+			#using the command again if they didn't have space for cake.
+		else:
+			give cake to the player
+			send "Here you go!"
+
+#
+# Allows specified items to be used as helmets for survival players (Minecraft 1.9 recommended).
+#
+
+aliases:
+	custom helmets = iron block, gold block, diamond block # Change this to anything you'd like
+
+on inventory click:
+	inventory action is place all or nothing
+	cursor slot of player is custom helmets # Check if item is allowed as helmet
+	event-slot is helmet slot of event-player # Check that player clicked the helmet
+	cancel the event
+	set {_old helmet} to helmet of player # Store old helmet
+	set helmet of player to cursor slot of player # Set new helmet to item in player's cursor
+	set cursor slot of player to {_old helmet} # Set player's cursor to old helmet, possibly air
+
+on right click:
+	tool of player is custom helmets
+	helmet of player is air
+	cancel the event
+	set helmet of player to tool of player
+	set tool of player to air
+
+#
+# Disables rain & thunder in all worlds
+#
+
+on weather change to rain or thunder:
+	cancel event
+
+#
+# Makes eternal day in all worlds by setting each world's time to morning in the evening.
+#
+
+at 18:00:
+	set time to 7:00
+
+#
+# This script automates furnaces.
+# They store smelted items and restock/refuel automatically from surrounding chests
+# But only as long as they have fuel and something to smelt, and there's storage space for the smelted items,
+# I.e. if a furnace stops burning it won't resume automatically, but has to be lit manually again.
+#
+
+options:
+	# radius: in which radius chest should be searched.
+	# Putting a small radius is recommended as it increases performance and prevents furnaces from taking items out of chests behind walls or otherwise hidden chests.
+	# Some recommended values:
+	#   1: only chests direcly next to the furnace are affected
+	#   1.5: chests diaginally adjacent (i.e. which touch the furnace with one edge) are affected as well
+	#   1.75: all surrounding chests in a 3x3x3 cube are affected
+	radius: 1
+
+aliases:
+	fuel = coal, coal ore, coal block, any wooden tool
+
+on smelt:
+	loop blocks in radius {@radius}:
+		loop-block is chest
+		if ore slot of block is empty:
+			loop items of types ore and log:
+				inventory of loop-block contains loop-item
+				remove loop-item from inventory of loop-block
+				set ore of event-block to loop-item
+				exit loop
+		if fuel slot of block is empty:
+			loop items in inventory of loop-block:
+				loop-item is fuel
+				remove 1 of loop-item from inventory of loop-block
+				set fuel of event-block to 1 of loop-item
+				exit loop
+		if result slot of block is not empty:
+			loop-block can hold result of event-block
+			add result of event-block to loop-block
+			clear result of event-block
+
+#
+# A simple home script which allows players with the permission 'skript.home' to
+# define a home location with /sethome, delete a home with /delhome and teleport to that location whenever they want to with /home.
+#
+
+command /sethome <string>:
+	description: Sets your home
+	permission: skript.home
+	executable by: players
+	trigger:
+		set {homes::%uuid of player%::%arg-1%} to location of player
+		message "Set your home <green>%arg-1%<reset> to <grey>%location of player%<reset>"
+
+command /delhome <string>:
+	description: Deletes your home
+	permission: skript.home
+	executable by: players
+	trigger:
+		clear {homes::%uuid of player%::%arg-1%}
+		message "Deleted your home <green>%arg-1%<reset>"
+
+command /home <string>:
+	description: Teleports yourself to your home
+	permission: skript.home
+	executable by: players
+	trigger:
+		if {homes::%uuid of player%::%arg-1%} is not set:
+			message "You have not set your home <green>%arg-1%<reset> yet!"
+		else:
+			teleport player to {homes::%uuid of player%::%arg-1%}
+
+#
+# Two /item commands that accept aliases as arguments and are thus extremely versatile.
+# E.g. you can use the command like "/item birch plank, 5 red wool and 17 iron ore" and you will receive all 3.
+# If you add translated aliases to your aliases.sk your players will be able to use those aliases as well.
+#
+# Please note that an <items> argument accepts enchantments as well, and only the second example command
+# in this script restricts spawing of enchanted items.
+#
+
+aliases:
+	# Items that the user cannot give himself
+	blacklisted = TNT, bedrock, obsidian, mob spawner, lava, lava bucket
+
+# This version of the command requires that the player has the permission skript.give,
+# and blacklisted items are only allowed if the player has the permission skript.give.bypassblacklist
+command /item <items>:
+	description: Give yourself some items
+	usage: /item <item(s)>
+	aliases: i
+	executable by: players
+	permission: skript.give
+	trigger:
+		if player has permission "skript.give.bypassblacklist":
+			give arguments to player
+		else:
+			loop arguments:
+				if loop-item is not blacklisted:
+					give loop-item to player
+				else:
+					message "<red>%loop-item%<reset> is blacklisted and thus cannot be spawned"
+
+# This version of the command checks whether the player has permission to spawn the desired item.
+# A player needs the "skript.give.<type of item>" permission to spawn an item of the desired type
+# and the permission "skript.give.enchanted" to spawn enchanted items.
+command /item2 <items>:
+	description: Give yourself some items
+	usage: /item2 <item(s)>
+	aliases: i2
+	executable by: players
+	permission: skript.give
+	trigger:
+		loop arguments:
+			if loop-item is enchanted:
+				if player does not have the permission "skript.give.enchanted":
+					message "You don't have permission to spawn enchanted items!"
+					stop
+			if player has permission "skript.give.%type of loop-item%":
+				give loop-item to player
+			else:
+				message "You don't have permission to spawn <red>%loop-item%<reset>! (skript.give.%type of loop-item%)"
+
+
+command /give <item types> to <player>:
+	description: Give someone else some items
+	usage: /give <item(s)> to <player>
+	permission: skript.give
+	trigger:
+		send "Giving %argument 1% to %argument 2%" to player
+		loop argument 1:
+			if player has permission "skript.give.%type of loop-item%":
+				give loop-item to argument 2
+				send "You recieved %loop-item% from %player%" to argument 2
+			else:
+				message "<red>You don't have permission to give away free <red>%loop-item%<reset>! (skript.give.%type of loop-item%)"
+
+#
+# Counts kills per life, in total, and the highest kill streak.
+#
+
+# Defaults are useful here, as a player's kills would be '<none>' if he hasn't killed anything yet,
+# but with defaults defined those will be used in that case.
+
+on death:
+	attacker is a player
+	add 1 to {kill counter::%uuid of attacker%::kills_total}
+	add 1 to {kill counter::%uuid of attacker%::kills_session}
+	if {kill counter::%uuid of attacker%::kills_session} > {kill counter::%uuid of attacker%::kills_session_max}:
+		set {kill counter::%uuid of attacker%::kills_session_max} to {kill counter::%uuid of attacker%::kills_session}
+
+on death of player:
+	set {kill counter::%uuid of player%::kills_session} to 0
+
+command /kills:
+	executable by: players
+	trigger:
+		message "You have killed %{kill counter::%uuid of player%::kills_session}% mobs and players in this life out of %{kill counter::%uuid of player%::kills_total}% kills in total."
+		message "Your maximum kill streak is %{kill counter::%uuid of player%::kills_session_max}% kills in one life."
+
+#
+# this simple file prevents endermen from modifying the landscape.
+# You could also only restrict what they can/cannot take/place by adding a condition.
+#
+
+on enderman pickup:
+	cancel event
+
+on enderman place:
+	cancel event
+	kill the enderman # kills endermen which were still carrying something when this trigger file was activated
+
+#
+# These triggers fix some drops.
+#
+
+on break of glass:
+	drop glass
+
+on break of glass pane:
+	drop glass pane
+
+on break of bookshelf:
+	cancel event
+	set block to air
+	drop bookshelf
+
+#
+# Makes a player invulnerable if he has the permission 'skript.god'
+#
+
+on damage:
+	victim is a player
+	victim has permission "skript.god"
+	cancel event
+
+#
+# Makes a player invulnerable if he has the permission 'skript.god'
+#
+
+on damage:
+	victim is a player
+	victim has permission "skript.god"
+	cancel event
+
+#
+# A join and leave message.
+#
+
+command /set <string> message <string>:
+	permission: skript.set.join_message
+	description: Sets message when player joins
+	trigger:
+		if argument-1 is "join" or "leave":
+			set {custom messages::%argument-1%} to argument-2
+			message "Set the %argument-1% message to '%argument-2%<reset>'"
+		else:
+			message "Only 'join' and 'leave' messages are available here."
+
+command /show <string> message:
+	description: Displays the message of the day
+	trigger:
+		if {custom messages::%argument%} is set:
+			message {custom messages::%argument%}
+		else:
+			message "Only 'join' and 'leave' messages are available here."
+
+on join:
+	set join message to {custom messages::join}
+
+on quit:
+	set leave message to {custom messages::leave}
+
+#
+# A simple message of the day script.
+# The MOTD can be set with the /setmotd command,
+# and it will be sent to each player when they log in
+# and when they use the /motd command.
+#
+
+command /setmotd <text>:
+	permission: skript.setmotd
+	description: Sets the message of the day
+	trigger:
+		message "Set the MOTD to '%argument%<reset>'"
+		set {motd} to argument
+
+command /showmotd:
+	description: Displays the message of the day
+	trigger:
+		message {motd}
+
+on join:
+	# uncomment the following line to make the MOTD appear after other messages
+	# wait a tick
+	message {motd}
+
+#
+# Allows players with the 'skript.teleport' permission to be able to teleport
+# with a compass like in WorldEdit.
+#
+
+on rightclick with compass:
+	loop blocks above targeted block:
+		teleport player to loop-block
+		stop trigger
+
+#
+# A vanilla example of a gui creation using Skript only
+# Requires Skript 2.3+
+#
+
+command /gui:
+	trigger:
+		set {_gui} to a new chest inventory with 6 row with name "Gui Test"
+		set slot 0 of {_gui} to stone
+		open {_gui} to player
+
+on inventory click:
+	if name of event-inventory is "Gui Test":
+		if index of event-slot = 0:
+			cancel event
+			send "You clicked on the slot 0 !"

@@ -1,0 +1,23 @@
+{
+  "name": "skript-grammar",
+  "version": "1.0.0",
+  "description": "The grammar source for all official Skript highlighters.",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SkriptLang/skript-grammar.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SkriptLang/skript-grammar/issues"
+  },
+  "homepage": "https://github.com/SkriptLang/skript-grammar",
+  "dependencies": {
+    "cson-parser": "^4.0.9"
+  }
+}
