@@ -34,7 +34,19 @@ If a new feature is not displayed or tested within this file, an example should 
 
 ### VS Code Testing
 
-Todo.
+1- Install [vsce](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#vsce) on your system  
+2- Change directory to `~/skript-grammar/syntax-vscode` (~ is your home directory or where you downloaded the files)
+```
+$ cd ~/skript-grammar/syntax-vscode
+```
+3- Package the files for vscode using vsce and follow up with the process
+```
+$ vsce package
+```
+4- Install the extension (replace 1.x.x with the correct numbers from the output file)
+```
+$ code --install-extension ./skript-grammar-1.x.x.vsix
+```
 
 ### Atom Testing
 
