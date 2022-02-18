@@ -1,0 +1,20 @@
+{
+  "name": "skript-grammar",
+  "displayName": "Skript",
+  "version": "0.0.0",
+  "description": "The official Skript syntax highlighter.",
+  "keywords": [
+    "Skript",
+    "sk",
+    "SkriptLang",
+    "Minecraft",
+    "Plugin",
+    "Bukkit"
+  ],
+  "repository": "https://github.com/SkriptLang/skript-grammar",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {}
+}
