@@ -44,8 +44,18 @@ If a new feature is not displayed or tested within this file, an example should 
 
 ### VS Code Testing
 
+###### Method 1
+
+1. Open VS Code in `skript-grammar/syntax-vscode` directory.
+```sh
+$ code skript-grammar/syntax-vscode
+```
+2. Press **F5** or `Run > Start Debugging`.
+
+###### Method 2
+
 1. Install [VSCE](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#vsce).
-2. Change the directory to `skript-grammar/syntax-vscode`.
+2. Navigate to the `skript-grammar/syntax-vscode` directory.
 ```sh
 $ cd skript-grammar/syntax-vscode
 ```
@@ -53,23 +63,23 @@ $ cd skript-grammar/syntax-vscode
 ```sh
 $ vsce package
 ```
-4. Install the extension (replace 1.x.x with the correct numbers from the output file.)
+4. Install the extension (replace 1.x.x with the correct numbers from the output file).
 ```sh
 $ code --install-extension ./skript-grammar-1.x.x.vsix
 ```
+5. Relaunch VS Code or **Ctrl+Shift+P** and choose `reload window`.
+6. Open the `test.sk` example file.
 
 ### Atom Testing
 
 1. Navigate to the `skript-grammar/syntax-atom` directory.
-
 ```sh
 $ cd skript-grammar/syntax-atom
 ```
 
 2. Link this package with your Atom editor in DEV mode.
-
 ```sh
-apm link --dev
+$ apm link --dev
 ```
 
 3. Open the atom editor and navigate to `View > Developer > Open in Dev Mode...`
