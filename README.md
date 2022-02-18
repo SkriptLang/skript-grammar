@@ -1,4 +1,4 @@
-# skript-grammar
+# Skript Grammar
 
 ## NOTE: This is in development and not in a usable state.
 
@@ -32,6 +32,11 @@ Publishing is a **dangerous** action and should be taken with care.
 ## Testing
 
 Each editor can be tested individually.
+The highlighter file will need to be rebuilt from source first.
+
+```sh
+$ npm run build
+```
 
 A sample `test.sk` file is provided, which contains *all* of the example scripts provided with the Skript plugin.
 
@@ -39,22 +44,45 @@ If a new feature is not displayed or tested within this file, an example should 
 
 ### VS Code Testing
 
-1- Install [vsce](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#vsce) on your system  
-2- Change directory to `~/skript-grammar/syntax-vscode` (~ is your home directory or where you downloaded the files)
+###### Method 1
+
+1. Open VS Code in `skript-grammar/syntax-vscode` directory.
+```sh
+$ code skript-grammar/syntax-vscode
 ```
-$ cd ~/skript-grammar/syntax-vscode
+2. Press **F5** or `Run > Start Debugging`.
+
+###### Method 2
+
+1. Install [VSCE](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#vsce).
+2. Navigate to the `skript-grammar/syntax-vscode` directory.
+```sh
+$ cd skript-grammar/syntax-vscode
 ```
-3- Package the files for vscode using vsce and follow up with the process
-```
+3. Package the files for VS Code using VSCE and follow up with the process.
+```sh
 $ vsce package
 ```
-4- Install the extension (replace 1.x.x with the correct numbers from the output file)
-```
+4. Install the extension (replace 1.x.x with the correct numbers from the output file).
+```sh
 $ code --install-extension ./skript-grammar-1.x.x.vsix
 ```
+5. Relaunch VS Code or **Ctrl+Shift+P** and choose `reload window`.
+6. Open the `test.sk` example file.
 
 ### Atom Testing
 
-To test syntax in the atom editor, navigate to the `skript-atom` directory and run `apm link --dev`.
+1. Navigate to the `skript-grammar/syntax-atom` directory.
+```sh
+$ cd skript-grammar/syntax-atom
+```
 
-The `test.sk` file can then be opened in dev mode. Make sure no conflicting extensions are installed.
+2. Link this package with your Atom editor in DEV mode.
+```sh
+$ apm link --dev
+```
+
+3. Open the atom editor and navigate to `View > Developer > Open in Dev Mode...`
+4. Open the `test.sk` example file.
+
+Once the file is opened in developer mode, the window can be reloaded to visualise changes (after rebuilding the language file.)
