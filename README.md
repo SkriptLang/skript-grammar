@@ -8,6 +8,11 @@ This repository contains the details for publishing individual editor plugins (e
 
 The source file is designed to be automatically converted to all editor styles, so that any updates require changing only one copy rather than several.
 
+We use an automatic process
+- to make sure all highlighters have reliable, matching output
+- to reduce the amount of work needed to maintain everything
+- to prevent accidental errors
+
 ## Requirements
 
 This project uses `node.js`. Individual editor builds and deployments may require special packages installed (as well as the editor itself, of course.)
@@ -34,7 +39,19 @@ If a new feature is not displayed or tested within this file, an example should 
 
 ### VS Code Testing
 
-Todo.
+1- Install [vsce](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#vsce) on your system  
+2- Change directory to `~/skript-grammar/syntax-vscode` (~ is your home directory or where you downloaded the files)
+```
+$ cd ~/skript-grammar/syntax-vscode
+```
+3- Package the files for vscode using vsce and follow up with the process
+```
+$ vsce package
+```
+4- Install the extension (replace 1.x.x with the correct numbers from the output file)
+```
+$ code --install-extension ./skript-grammar-1.x.x.vsix
+```
 
 ### Atom Testing
 
