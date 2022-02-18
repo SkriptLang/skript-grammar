@@ -1,8 +1,8 @@
 {
     "name": "skript-grammar",
     "displayName": "Skript",
-    "description": "The grammar source for all official Skript highlighters.",
-    "version": "1.0.0",
+    "description": "The official Skript syntax highlighter.",
+    "version": "0.0.0",
     "engines": {
         "vscode": "^1.64.0"
     },

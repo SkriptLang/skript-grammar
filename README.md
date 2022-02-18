@@ -8,6 +8,11 @@ This repository contains the details for publishing individual editor plugins (e
 
 The source file is designed to be automatically converted to all editor styles, so that any updates require changing only one copy rather than several.
 
+We use an automatic process
+- to make sure all highlighters have reliable, matching output
+- to reduce the amount of work needed to maintain everything
+- to prevent accidental errors
+
 ## Requirements
 
 This project uses `node.js`. Individual editor builds and deployments may require special packages installed (as well as the editor itself, of course.)
