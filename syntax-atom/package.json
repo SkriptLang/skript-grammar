@@ -1,5 +1,6 @@
 {
   "name": "skript-grammar",
+  "productName": "Skript",
   "displayName": "Skript",
   "version": "0.0.0",
   "description": "The official Skript syntax highlighter.",

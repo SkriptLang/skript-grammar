@@ -4,9 +4,9 @@
   "description": "The grammar source for all official Skript highlighters.",
   "main": "index.js",
   "scripts": {
-    "build": "node build.js",
+    "build": "./build.sh",
     "publish": "./publish.sh $1",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./test.sh"
   },
   "repository": {
     "type": "git",
