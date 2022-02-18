@@ -1,6 +1,7 @@
 {
     "name": "skript-grammar",
     "displayName": "Skript",
+    "productName": "Skript",
     "description": "The official Skript syntax highlighter.",
     "version": "0.0.0",
     "engines": {
@@ -9,17 +10,30 @@
     "categories": [
         "Programming Languages"
     ],
+    "repository": "https://github.com/SkriptLang/skript-grammar",
     "contributes": {
-        "languages": [{
-            "id": "skript",
-            "aliases": ["Skript", "skript"],
-            "extensions": [".sk"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "skript",
-            "scopeName": "source.skript",
-            "path": "./syntaxes/skript.json"
-        }]
+        "languages": [
+            {
+                "id": "skript",
+                "aliases": [
+                    "Skript",
+                    "skript"
+                ],
+                "extensions": [
+                    ".sk"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "skript",
+                "scopeName": "source.skript",
+                "path": "./syntaxes/skript.json"
+            }
+        ]
+    },
+    "dependencies": {
+        "code": "^5.2.4"
     }
 }

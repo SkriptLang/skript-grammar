@@ -23,6 +23,7 @@ git add .
 git commit -m "Clear working tree pre-publish."
 
 # Publish here
+# vsce publish
 
 echo "Published VS Code extension."
 
