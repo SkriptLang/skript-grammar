@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/SkriptLang/skript-grammar",
   "dependencies": {
-    "cson-parser": "^4.0.9"
+    "cson-parser": "^4.0.9",
+    "npm": "^8.5.1"
   }
 }
