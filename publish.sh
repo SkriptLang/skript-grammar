@@ -30,3 +30,18 @@ echo "Published VS Code extension."
 rm -rf .git/
 
 cd ../
+
+# Sublime Text 3
+
+cd syntax-st3/
+git init
+git add .
+git commit -m "Clear working tree pre-publish."
+
+# Publish here
+
+echo "Published Sublime Text 3 extension."
+
+rm -rf .git/
+
+cd ../
