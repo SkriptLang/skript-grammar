@@ -43,6 +43,9 @@ repository:
                 endCaptures:
                     0: name: 'punctuation.definition.string.end'
                 name: 'punctuation.reset'
+                patterns: [
+                    { include: '#code' }
+                ]
             }
         ]
     code:
