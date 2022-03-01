@@ -94,6 +94,8 @@ arg-x
 
 ### Ending Words
 
+These will be identified in red (or similar) as important words that either end a trigger or have major cancelling behaviour (e.g. `cancel the event`.)
+
 ```sk
 cancel ...
 stop ...
@@ -111,3 +113,5 @@ integer
 block
 entity
 ```
+
+Todo: add remaining types and qualifiers.
