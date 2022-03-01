@@ -48,10 +48,6 @@ loop %number% times:
 
 [do] while <.+>:
 
-(spawn|summon) %entity types% [%directions% %locations%]:
-(spawn|summon) %number% of %entity types% [%directions% %locations%]:
-
-
 command .+:
 function .+:
 on .+:
@@ -61,6 +57,13 @@ trigger:
 options:
 variables:
 aliases:
+```
+
+The following section headers are currently not supported, as their effect-section style is not compatible with our highlighting rules.
+```yaml
+(spawn|summon) %entity types% [%directions% %locations%]:
+(spawn|summon) %number% of %entity types% [%directions% %locations%]:
+
 ```
 
 ### Literals
