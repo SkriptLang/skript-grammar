@@ -1,6 +1,6 @@
 {
   "name": "skript-grammar",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "The grammar source for all official Skript highlighters.",
   "main": "index.js",
   "scripts": {
