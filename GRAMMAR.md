@@ -68,11 +68,11 @@ The following section headers are currently not supported, as their effect-secti
 
 ### Literals
 
-```sk
-"string"
-123
-1.0
-true false off on yes no
+```yaml
+"string" # text
+123 # integer
+1.0 # decimal
+true false off on yes no # boolean
 ```
 
 ### Structures
