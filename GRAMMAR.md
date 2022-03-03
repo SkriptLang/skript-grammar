@@ -48,10 +48,6 @@ loop %number% times:
 
 [do] while <.+>:
 
-(spawn|summon) %entity types% [%directions% %locations%]:
-(spawn|summon) %number% of %entity types% [%directions% %locations%]:
-
-
 command .+:
 function .+:
 on .+:
@@ -63,13 +59,20 @@ variables:
 aliases:
 ```
 
+The following section headers are currently not supported, as their effect-section style is not compatible with our highlighting rules.
+```yaml
+(spawn|summon) %entity types% [%directions% %locations%]:
+(spawn|summon) %number% of %entity types% [%directions% %locations%]:
+
+```
+
 ### Literals
 
-```sk
-"string"
-123
-1.0
-true false off on yes no
+```yaml
+"string" # text
+123 # integer
+1.0 # decimal
+true false off on yes no # boolean
 ```
 
 ### Structures
@@ -91,6 +94,8 @@ arg-x
 
 ### Ending Words
 
+These will be identified in red (or similar) as important words that either end a trigger or have major cancelling behaviour (e.g. `cancel the event`.)
+
 ```sk
 cancel ...
 stop ...
@@ -108,3 +113,5 @@ integer
 block
 entity
 ```
+
+Todo: add remaining types and qualifiers.
