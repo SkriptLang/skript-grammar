@@ -48,7 +48,7 @@ If a new feature is not displayed or tested within this file, an example should 
 
 1. Open VS Code in `skript-grammar/syntax-vscode` directory.
 ```sh
-$ code skript-grammar/syntax-vscode
+$ code .
 ```
 2. Press **F5** or `Run > Start Debugging`.
 
